@@ -38,11 +38,11 @@ const disciplinasRegistros = [
 
 const enderecosRegistros = [
     // Registros dos endereços
-    { id_end: 1, cidade: 'Igarassu', bairro: 'Centro', rua: 'Rua A, 123', alunos_id: 1  },
-    { id_end: 2, cidade: 'Abreu e Lima', bairro: 'Centro', rua: 'Av. B, 456', alunos_id: 2  },
-    { id_end: 3, cidade: 'Itamaraca', bairro: 'centro', rua: 'Rua C, 789', alunos_id: 3  },
-    { id_end: 4, cidade: 'Igarassu', bairro: 'Inhamâ', rua: 'Av. D, 321', alunos_id: 4  },
-    { id_end: 5, cidade: 'Abreu e Lima', bairro: 'Caetés II', rua: 'Rua E, 654', alunos_id: 5  }
+    { id_end: 1, cidade: 'Igarassu', bairro: 'Centro', rua: 'Rua A, 123', alunos_id: 1 },
+    { id_end: 2, cidade: 'Abreu e Lima', bairro: 'Centro', rua: 'Av. B, 456', alunos_id: 2 },
+    { id_end: 3, cidade: 'Itamaraca', bairro: 'centro', rua: 'Rua C, 789', alunos_id: 3 },
+    { id_end: 4, cidade: 'Igarassu', bairro: 'Inhamâ', rua: 'Av. D, 321', alunos_id: 4 },
+    { id_end: 5, cidade: 'Abreu e Lima', bairro: 'Caetés II', rua: 'Rua E, 654', alunos_id: 5 }
 ];
 
 // Função para carregar os dados de uma tabela
@@ -129,30 +129,34 @@ function realizarJoins(dadosTabelas, campos) {
 
         // Realiza os joins com as outras tabelas
         for (let i = 1; i < dadosTabelas.length; i++) {
-            const tabelaAtual = dadosTabelas[i];
-            const campoJoin = `${tabelaBase.nome}_id`;
+            const tabelaAtual = dadosTabelas[i]; // Obtém a tabela atual para realizar o join
+            const campoJoin = `${tabelaBase.nome}_id`; // Define o campo de junção como o nome da tabela base seguido de "_id"
 
             if (!tabelaAtual.campos.includes(campoJoin)) {
                 console.error(`Erro: Campo de join '${campoJoin}' não encontrado na tabela '${tabelaAtual.nome}'.`);
-                continue;
+                continue; // Pula para a próxima iteração do loop caso o campo de junção não seja encontrado
             }
 
+            // Verifica se o campo de junção está presente na tabela atual
             tabelaAtual.registros.forEach(registro => {
+                // Verifica se o valor do campo de junção do registro atual é igual ao ID do registro base
                 if (registro[campoJoin] === registroBase.id) {
+                    // Percorre os campos do registro atual
                     for (const campo in registro) {
+                        // Verifica se o campo está presente na lista de campos especificados
                         if (campos.includes(campo)) {
-                            registroJoin[campo] = registro[campo];
+                            registroJoin[campo] = registro[campo]; // Adiciona o campo e seu valor ao registroJoin
                         }
                     }
                 }
             });
         }
 
-        resultados.push(registroJoin);
+        resultados.push(registroJoin); // Adiciona o registroJoin ao array de resultados
     });
 
     console.log("Resultados finais:", resultados);
-    return resultados;
+    return resultados; // Retorna os resultados após os joins
 }
 
 // Função para exibir os resultados na interface
